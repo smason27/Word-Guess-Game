@@ -16,16 +16,6 @@ var game = {
     "startGame": false,
     "endGame": false,
 }
-// function createButton() {
-//     for (i = 0; i < alphabet.length; i++) {
-//         var button = $("<button>");
-//         button.addClass("letterButton").html(alphabet[i]);
-//         $("#letterButtons").append(button)
-//     }
-    
-// }
-
- createButton();
 
 document.onkeyup = function (event) {
     var letter = event.key.toLowerCase();
