@@ -1,0 +1,9 @@
+.letterButton {
+    display: flex;
+    background: #fa8320;
+    border-radius: 50%;
+    border: 2px solid black;
+    height: 50px;
+    width: 50px;
+    margin: 0;
+  }

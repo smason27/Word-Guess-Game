@@ -1,23 +1,35 @@
-var basketball = ["dunk", "steal", "zone", "crossover", "sonics", "assist", "rebound", "three", "dribbling", "fadewaway", "eurostep", "defense", "turnover", "forward"];
+
+
+
+var basketball = ["dunk", "steal", "zone", "crossover", "sonics", "assist", "rebound", "three", "dribbling", "fadeaway", "eurostep", "defense", "turnover", "forward"];
 var randomWord
+var alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
 
 var game = {
-    "attempts": 7,
-    //letters that have been guessed
+    // "attempts": 7,
+    "guessLetters": [],
     "correctlyGuessedLetters": [],
     "incorrectlyGuessedLetters": [],
-    //stores the value of the word being guessed
     "currentWord": [],
-    //shows on display the letters that have been guessed
-    // "guessWord": [],
-    "remainingGuesses": [],
+    "remainingGuesses": 7,
     "wins": 0,
     "startGame": false,
     "endGame": false,
 }
+// function createButton() {
+//     for (i = 0; i < alphabet.length; i++) {
+//         var button = $("<button>");
+//         button.addClass("letterButton").html(alphabet[i]);
+//         $("#letterButtons").append(button)
+//     }
+    
+// }
+
+ createButton();
 
 document.onkeyup = function (event) {
     var letter = event.key.toLowerCase();
+    checkLetter(letter);
     if (game.startGame == false) {
         gameStart(letter)
     };
@@ -33,7 +45,7 @@ function update() {
     }
     document.getElementById("winCount").innerHTML = game.wins;
     document.getElementById("remainingGuesses").innerHTML = game.remainingGuesses;
-    document.getElementById("incorrectlyGuessedLetters").innerHTML = game.incorrectlyGuessedLetters;
+    document.getElementById("incorrectlyGuessedLetters").innerHTML = game.incorrectlyGuessedLetters.join(" ");
     document.getElementById("currentWord").innerHTML = guessText;
 
 }
@@ -41,7 +53,7 @@ function update() {
 function gameStart(letter) {
     game.startGame = true;
     game.incorrectlyGuessedLetters = [];
-    game.remainingGuesses = game.attempts;
+    game.remainingGuesses = 7
     game.correctlyGuessedLetters = [];
     // game = initGame();
     randomWord = basketball[Math.floor(Math.random() * basketball.length)];
@@ -65,28 +77,63 @@ function compareUserLetter(Letter) {
     }
 
     if (userGuess) {
-        for (var i = 0; i < game.currentWord.length; i++) {
-            if (game.currentWord[i] === Letter) {
-                game.correctlyGuessedLetters.push(" " + Letter +",")
+        for (var j = 0; j < game.currentWord.length; j++) {
+            if (game.currentWord[j] === Letter) {
+                game.correctlyGuessedLetters[j] = Letter
             }
         }
-    } else { 
-        game.incorrectlyGuessedLetters.push(Letter)
+        } else { 
+            game.incorrectlyGuessedLetters.push(" " + Letter);
+            game.remainingGuesses --;
+    }
+    arraysEqual();
+    checkResult();
+} 
+function arraysEqual(a, b) {
+    a = game.correctlyGuessedLetters
+    b = game.currentWord
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length != b.length) return false;
+  
+    for (var i = 0; i < a.length; ++i) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  }
+  
+function checkResult() {
+    console.log("hello")
+    if(arraysEqual() === true) { 
+        alert("you win");
+        game.wins ++;
+        gameStart();
+    }
+    if(game.remainingGuesses <= 0 && arraysEqual() === false) {
+        alert("you suck")
+        gameStart();
     }
 }
-// if (game.correctlyGuessedLetters === game.currentWord) {
-//     //FUNCTION FOR GAME WIN
-//     Update();
-// } else if (game.remainingGuesses === 0) {
-//     game.startGame = false;
-//     Update();
-// }
+
+function checkLetter(letter) {
+    for(i = 0; i < alphabet.length; i++) {
+        if(alphabet.indexOf(letter) === -1) {
+            alert("please try another letter");
+            
+        } else {
+            return;
+        }
+    }
+
+    if(letter === game.incorrectlyGuessedLetters[i] || game.correctlyGuessedLetters) {
+        alert("try another letter!")
+    } else {
+        return;
+    }
+    
+}
 
 
-// function win() {
-//     // 
-
-// }
 
 
 
